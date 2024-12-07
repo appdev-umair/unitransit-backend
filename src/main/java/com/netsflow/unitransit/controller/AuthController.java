@@ -1,26 +1,35 @@
+// AuthController.java
 package com.netsflow.unitransit.controller;
 
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.netsflow.unitransit.model.SignInRequest;
-import com.netsflow.unitransit.model.User;
-import com.netsflow.unitransit.service.UserService;
+import com.netsflow.unitransit.dto.SignInRequest;
+import com.netsflow.unitransit.service.AuthService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody User user) {
-        return userService.signUp(user);
+    public String registerUser(@RequestBody Map<String, Object> userRequest) {
+        return authService.signUp(userRequest);
+    }
+
+    @PostMapping("/signin")
+    public String signIn(@RequestBody SignInRequest signInRequest) {
+        return authService.signIn(signInRequest.getEmail(), signInRequest.getPassword(), signInRequest.getRole());
     }
 
     @PostMapping("/verify-otp")
@@ -28,19 +37,13 @@ public class AuthController {
         String email = request.get("email");
         String otp = request.get("otp");
         String context = request.get("context");
-        return userService.verifyOTP(email, otp, context);
-
-    }
-
-    @PostMapping("/signin")
-    public String signIn(@RequestBody SignInRequest signInRequest) {
-        return userService.signIn(signInRequest.getEmail(), signInRequest.getPassword(), signInRequest.getRole());
+        return authService.verifyOTP(email, otp, context);
     }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
-        userService.requestPasswordReset(email);
+        authService.requestPasswordReset(email);
         return ResponseEntity.ok("Password reset OTP sent to your email.");
     }
 
@@ -48,7 +51,7 @@ public class AuthController {
     public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         String newPassword = request.get("newPassword");
-        userService.resetPassword(email, newPassword);
+        authService.resetPassword(email, newPassword);
         return ResponseEntity.ok("Password reset successfully.");
     }
 
@@ -56,9 +59,7 @@ public class AuthController {
     public ResponseEntity<String> resendOtp(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         String context = request.get("context");
-
-        userService.resendOtp(email, context);
+        authService.resendOtp(email, context);
         return ResponseEntity.ok("OTP resent successfully to your email.");
     }
-
 }

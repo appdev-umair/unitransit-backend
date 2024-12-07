@@ -1,4 +1,4 @@
-package com.netsflow.unitransit.model;
+package com.netsflow.unitransit.dto;
 
 public class SignInRequest {
 
@@ -20,7 +20,7 @@ public class SignInRequest {
     }
 
     public void setRole(String role) {
-        this.email = role;
+        this.role = role;
     }
 
     public String getPassword() {

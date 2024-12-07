@@ -1,20 +1,21 @@
 package com.netsflow.unitransit.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtil {
+
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private long expirationTime = 86400000L; // 1 day in milliseconds
+    private final long expirationTime = 86400000L; // 1 day in milliseconds
 
     // Method to generate JWT token
     @SuppressWarnings("deprecation")
@@ -38,7 +39,7 @@ public class JwtTokenUtil {
     }
 
     // Method to validate JWT token
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "UseSpecificCatch"})
     public boolean validateToken(String token) {
         try {
             Jwts.parser()

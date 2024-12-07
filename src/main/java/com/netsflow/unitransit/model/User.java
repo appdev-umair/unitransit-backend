@@ -1,24 +1,32 @@
 package com.netsflow.unitransit.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+
+import com.netsflow.unitransit.domain.Role;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "users")  // Specify the table name for the base class
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String gender;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -29,13 +37,14 @@ public class User {
     @Column(nullable = false)
     private Boolean isVerified = false;
 
-    // Add this to your User class
+    @Column
+    private String verificationCode;
+
+    @Column
+    private LocalDateTime otpExpirationTime;
+
     @Column(nullable = false)
-    private String role = "USER"; // Default role is USER
+    @Enumerated(EnumType.STRING)
+    private Role role;  // Now uses enum Role instead of String
 
-    @Column
-    private String verificationCode; // Store the OTP or unique code
-
-    @Column
-    private LocalDateTime otpExpirationTime; // Store OTP expiration time
 }
