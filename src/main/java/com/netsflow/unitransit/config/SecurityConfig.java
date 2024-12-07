@@ -33,8 +33,8 @@ public class SecurityConfig {
                         -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/auth/**", "/public/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/auth/**", "/public/**", "/location/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/bus-tracking-websocket/**").permitAll()
                 .requestMatchers("/driver/**").hasRole("DRIVER")
                 .requestMatchers("/student/**").hasRole("STUDENT")
                 .anyRequest().authenticated()
