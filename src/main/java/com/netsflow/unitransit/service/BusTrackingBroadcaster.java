@@ -16,6 +16,7 @@ public class BusTrackingBroadcaster {
 
     // Method to broadcast location updates
     public void broadcastBusLocation(BusLocation location) {
+        System.out.println("Umair");
         messagingTemplate.convertAndSend(
                 "/topic/bus-tracking/" + location.getId(),
                 location

@@ -35,7 +35,7 @@ public class DriverController {
             @RequestParam Double latitude,
             @RequestParam Double longitude) {
 
-        locationService.updateLocation(busId, latitude, longitude);
+        locationService.updateLocationViaWebSocket(busId, latitude, longitude);
         return ResponseEntity.ok("Location updated successfully");
     }
 

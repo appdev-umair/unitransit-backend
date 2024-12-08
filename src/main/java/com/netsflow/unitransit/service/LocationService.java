@@ -48,24 +48,6 @@ public class LocationService {
         broadcaster.broadcastBusLocation(location);
     }
 
-    public void updateLocation(Long busId, Double latitude, Double longitude) {
-        Bus bus = busRepository.findById(busId)
-                .orElseThrow();
-
-        // Check if location already exists for the bus
-        BusLocation location = locationRepository.findByBus(bus)
-                .orElse(new BusLocation());
-
-        // Update location details
-        location.setBus(bus);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
-        location.setLastUpdated(LocalDateTime.now());
-
-        // Save the updated location
-        locationRepository.save(location);
-    }
-
     // Existing method for REST API
     public BusLocation getBusLocation(Long busId) {
         Bus bus = busRepository.findById(busId)
