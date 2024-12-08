@@ -6,22 +6,27 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebSocketMessageBroker
+@Slf4j
+
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         // Enable simple memory-based message broker
-        config.enableSimpleBroker("/topic/bus-tracking");
+        config.enableSimpleBroker("/topic/bus");
         // Set prefix for messages from clients to server
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/bus-tracking-websocket");
         registry.addEndpoint("/bus-tracking-websocket")
-                .setAllowedOriginPatterns("*");
+                .setAllowedOriginPatterns("*").withSockJS();
     }
 
 }
