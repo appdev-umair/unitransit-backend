@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/bus-tracking-websocket")
-                .setAllowedOriginPatterns("http://127.0.0.1:5501") // Frontend origin
+                .setAllowedOriginPatterns("*") // Frontend origin
                 .withSockJS();
     }
 
