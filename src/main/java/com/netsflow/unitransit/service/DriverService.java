@@ -39,12 +39,14 @@ public class DriverService {
         Map<String, Object> response = new HashMap<>();
         response.put("driverName", driver.getName());
         response.put("busDetails", Map.of(
+                "busId", bus.getId(),
                 "busNumber", bus.getBusNumber(),
                 "plateNumber", bus.getPlateNumber(),
                 "type", bus.getType(),
                 "isOperational", bus.getIsOperational()
         ));
         response.put("routeDetails", Map.of(
+                "routeId", route.getId(),
                 "routeName", route.getRouteName(),
                 "startLocation", route.getStartLocation(),
                 "endLocation", route.getEndLocation(),
